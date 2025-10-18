@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="card intro-card">
+    <h1 class="title">🧘 Karmic Puzzle Challenge</h1>
+    
+    <!-- This is the new dynamic content -->
+    {% if current_user.is_authenticated %}
+        <p class="intro-text">
+            Welcome back, {{ current_user.username }}! Continue your journey on your dashboard.
+        </p>
+        <div class="action-buttons-home">
+            <a href="{{ url_for('dashboard') }}" class="btn">🚀 Go to Your Dashboard</a>
+        </div>
+    {% else %}
+        <p class="intro-text">
+            Test your knowledge of math, philosophy, and dharma.
+            Log in to save your progress or play as a guest to try it out.
+        </p>
+        <div class="action-buttons-home">
+            <a href="{{ url_for('start_quiz') }}" class="btn">🚀 Play as Guest</a>
+            <a href="{{ url_for('signup') }}" class="btn">✨ Create an Account</a>
+        </div>
+        <p class="login-prompt">Already have an account? <a href="{{ url_for('login') }}">Log In</a></p>
+    {% endif %}
+</div>
+{% endblock %}
+

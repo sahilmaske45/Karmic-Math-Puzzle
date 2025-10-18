@@ -1,0 +1,32 @@
+<!-- This template extends the base layout -->
+{% extends "layout.html" %}
+
+<!-- Set the title for this specific page -->
+{% block title %}Log In{% endblock %}
+
+<!-- Define the main content for the page -->
+{% block content %}
+<div class="card auth-form">
+    <h1 class="title">Log In to Your Account</h1>
+    <p class="intro-text">Welcome back! Let's continue your journey.</p>
+    
+    <!-- The form posts the data to the /login route in app.py -->
+    <form method="POST" action="{{ url_for('login') }}">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        
+        <button type="submit" class="btn">🔑 Log In</button>
+    </form>
+    
+    <p class="auth-switch">
+        Don't have an account yet? <a href="{{ url_for('signup') }}">Sign Up here</a>
+    </p>
+</div>
+{% endblock %}
+

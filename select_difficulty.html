@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}Select Level{% endblock %}
+
+{% block content %}
+<div class="card auth-form"> <h1 class="title">Select Your Challenge</h1>
+    <p class="intro-text">Choose a level that matches your knowledge.</p>
+
+    <div class="action-buttons-home">
+        <a href="{{ url_for('create_quiz', difficulty='basic') }}" class="btn" style="width: 250px; margin-bottom: 10px;"> Basic</a>
+        <a href="{{ url_for('create_quiz', difficulty='intermediate') }}" class="btn" style="width: 250px; margin-bottom: 10px;"> Intermediate</a>
+        <a href="{{ url_for('create_quiz', difficulty='advanced') }}" class="btn" style="width: 250px;"> Advanced</a>
+    </div>
+
+    <p class="auth-switch" style="margin-top: 25px;">
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('dashboard') }}">Go Back</a>
+        {% else %}
+             <a href="{{ url_for('index') }}">Go Back</a>
+        {% endif %}
+    </p>
+</div>
+{% endblock %}

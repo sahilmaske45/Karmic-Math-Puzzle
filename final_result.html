@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+
+{% block title %}Your Final Result{% endblock %}
+
+{% block content %}
+<div class="result-container">
+    <div class="card result-card">
+        <h1 class="title">✨ Your Karmic Analysis ✨</h1>
+        <p class="karma-personality">Your Karma Personality: {{ personality }}</p>
+
+        <div class="performance-grid">
+            <div class="stat-item">
+                <h4>Final Karma Score</h4>
+                <p>{{ final_score }}</p>
+            </div>
+            <div class="stat-item">
+                <h4>Overall Accuracy</h4>
+                <p>{{ "%.1f"|format(accuracy) }}%</p>
+            </div>
+            <div class="stat-item">
+                <h4>Chakra Alignment</h4>
+                <p>{{ chakra_alignment }}</p>
+            </div>
+            <div class="stat-item">
+                <h4>Ethical Focus</h4>
+                <p>{{ ethical_focus }}</p>
+            </div>
+        </div>
+
+        <div class="score-calculation">
+            <h3 class="title">Score Calculation</h3>
+            <p>Your score is calculated based on your answers:</p>
+            <ul>
+                <li><strong>+10 points</strong> for each correct answer</li>
+                <li><strong>-5 points</strong> for each incorrect answer</li>
+            </ul>
+            <div class="calculation-breakdown">
+                {% for result in results %}
+                    <span>({% if result.is_correct %}+10{% else %}-5{% endif %})</span>
+                {% endfor %}
+                <strong>= {{ final_score }}</strong>
+            </div>
+        </div>
+
+        <div class="graphical-result-container">
+            <h2 class="title">Your Performance</h2>
+            {% set total_questions = results|length %}
+            {% if total_questions > 0 %}
+                {% set correct_answers = (accuracy * total_questions / 100)|round|int %}
+                
+                {# Define the progress color based on accuracy score #}
+                {% set progress_color = '#28a745' %} {# Default Green #}
+                {% if accuracy < 40 %}
+                    {% set progress_color = '#dc3545' %} {# Red #}
+                {% elif accuracy < 70 %}
+                    {% set progress_color = '#ffc107' %} {# Yellow #}
+                {% endif %}
+
+                <div class="circular-progress" style="--progress-value:{{ accuracy }}; --progress-color:{{ progress_color }};">
+                    <div class="value-container">{{ correct_answers }}/{{ total_questions }}</div>
+                </div>
+            {% else %}
+                <p>No results to display.</p>
+            {% endif %}
+        </div>
+        
+        <div class="result-summary">
+            <p>This report is a reflection of your choices. Use these insights to continue your journey of balance and self-awareness.</p>
+        </div>
+
+        <div class="result-actions">
+            <a href="{{ url_for('download_report') }}" class="btn btn-secondary">💾 Download PDF Report</a>
+
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('dashboard') }}" class="btn">🏠 Return to Dashboard</a>
+            {% else %}
+                <a href="{{ url_for('start_quiz') }}" class="btn">🚀 Play Another Set</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

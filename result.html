@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Karmic Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="score-display">
+            🌟 Total Karma Score: <span class="total-score">{{ total_score }}</span>
+        </div>
+        <h1 class="title">📊 Your Result</h1>
+        <div class="card result-card">
+            <h2>
+                Round Score: 
+                <span class="score-points {% if score > 0 %}correct{% else %}incorrect{% endif %}">
+                    {% if score > 0 %}+{{ score }}{% else %}{{ score }}{% endif %}
+                </span>
+            </h2>
+            <p class="feedback">{{ feedback }}</p>
+            {% if not is_correct %}
+            <div class="correct-answer-info">
+                ✅ The correct answer was: <strong>{{ correct_answer }}</strong>
+            </div>
+            {% endif %}
+            <hr>
+            <div class="detailed-analysis">
+                <h3>{{ analysis.title }}</h3>
+                <p>{{ analysis.table_data[0].explanation if analysis.type == 'default' else analysis.implication }}</p>
+            </div>
+        </div>
+        <a href="/play" class="btn">  Try Another Puzzle</a>
+    </div>
+</body>
+</html>
